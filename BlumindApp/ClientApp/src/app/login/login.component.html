@@ -1,0 +1,11 @@
+<div class="container">
+  <div class="card card-container">
+      <img id="profile-img" class="profile-img-card" src="//ssl.gstatic.com/accounts/ui/avatar_2x.png" />
+      <p id="profile-name" class="profile-name-card"></p>
+      <form class="form-signin" id="username" [formGroup]="loginForm">
+          <input type="text" formControlName="username" class="form-control" placeholder="Username" required autofocus>
+          <input type="password" formControlName="password" class="form-control" placeholder="Password" required>
+          <button class="btn btn-success" (click)="onSubmit()">Sign in</button>
+      </form><!-- /form -->
+  </div><!-- /card-container -->
+</div><!-- /container -->
