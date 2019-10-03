@@ -1,23 +1,23 @@
-import { Injectable, Inject } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Router } from '@angular/router';
+import { AUTH_ENDPOINT } from '../_constants/url.constants';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthenticationService {
   baseUrl;
-  constructor(private http: HttpClient, private router: Router, @Inject('BASE_URL') baseUrl: string) {
-    this.baseUrl = baseUrl;
+  constructor(private http: HttpClient, private router: Router) {
   }
 
   login(username: string, password: string, redirectUrl: string) {
     const body = this.createBody(username, password);
     const headers = new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded');
     localStorage.removeItem('appUser');
-    this.http.post<any>(this.baseUrl + '/connect/token', body, { headers: headers }).subscribe(data => {
+    this.http.post<any>(AUTH_ENDPOINT + '/connect/token', body, { headers: headers }).subscribe(data => {
       if (data && data.access_token) {
-        this.http.get<any>(this.baseUrl + '/connect/userinfo', {
+        this.http.get<any>(AUTH_ENDPOINT + '/connect/userinfo', {
           headers: new HttpHeaders().set('Authorization', `Bearer ${data.access_token}`)
         }).subscribe(uData => {
           if (uData && uData.sub) {

@@ -26,8 +26,10 @@ namespace Entities.BlumindDB {
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
+            Config.Setup();
             if (!optionsBuilder.IsConfigured)
             {
+                optionsBuilder.UseSqlServer(Config.ConnectionStrings["BlumindBase"]);
             }
         }
 

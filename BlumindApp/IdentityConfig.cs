@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace BlumindApp {
     public class IdentityConfig {
         public static string ApiResourceName = "app-api";
-        public static string ApiSecret = "{157=mjy-66hji78h}_bku";
+        public static string ApiSecret = "blumind-app";
         public static string ClientSecret = "app-client";
         private static int _tokenLifetime = 3600 * 8;
 
