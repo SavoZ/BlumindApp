@@ -3,6 +3,7 @@ using BlumindApp.Models.Product;
 using Entities.BlumindDB;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,29 +21,55 @@ namespace BlumindApp.Controllers {
             using (var db = new BlumindbaseContext())
             {
                 var entity = db.Categories.FirstOrDefault(p => p.Id == model.Id);
-                if (entity == null)
+
+                using (var dbContextTransaction = db.Database.BeginTransaction())
                 {
-                    entity = new Category
+
+                    if (entity == null)
                     {
-                        Name = model.Name,
-                        ValidFrom = DateTime.Now,
-                        UserInsert = CurrentUserId,
-                        DalteInsert = DateTime.Now
-                    };
-                    db.Categories.Add(entity);
+                        entity = new Category
+                        {
+                            Name = model.Name,
+                            ValidFrom = DateTime.Now,
+                            UserInsert = CurrentUserId,
+                            DalteInsert = DateTime.Now
+                        };
+                        db.Categories.Add(entity);
+                    }
+                    else
+                    {
+                        entity.Name = model.Name;
+                        entity.ValidFrom = model.ValidFrom;
+                        entity.UserModified = CurrentUserId;
+                        entity.DateModified = DateTime.Now;
+                    }
+                    await db.SaveChangesAsync();
+                    model.Id = entity.Id;
+
+                    await AddCategoryProducts(model);
+
+                    dbContextTransaction.Commit();
                 }
-                else
+            }
+            return Ok();
+        }
+
+        private async Task AddCategoryProducts(CategoryPostModel model)
+        {
+            using (var db = new BlumindbaseContext())
+            {
+                var currentProducts = await db.CategoryProducts.Where(c => c.CategoryId == model.Id).ToListAsync();
+
+                db.RemoveRange(currentProducts);
+
+                foreach (var productId in model.Products)
                 {
-                    entity.Name = model.Name;
-                    entity.ValidFrom = model.ValidFrom;
-                    entity.UserModified = CurrentUserId;
-                    entity.DateModified = DateTime.Now;
+                    var entity = new CategoryProduct { CategoryId = model.Id, ProductId = productId };
+                    db.CategoryProducts.Add(entity);
                 }
 
                 await db.SaveChangesAsync();
             }
-
-            return Ok();
         }
     }
 }

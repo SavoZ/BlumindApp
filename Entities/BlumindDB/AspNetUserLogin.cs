@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Entities.BlumindDB {
-    public partial class AspNetUserLogin {
+namespace Entities.BlumindDB
+{
+    public partial class AspNetUserLogin
+    {
         public string LoginProvider { get; set; }
         public string ProviderKey { get; set; }
         public string ProviderDisplayName { get; set; }

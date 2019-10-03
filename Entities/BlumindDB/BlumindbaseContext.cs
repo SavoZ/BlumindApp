@@ -1,9 +1,11 @@
-﻿using System;
+using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 
-namespace Entities.BlumindDB {
-    public partial class BlumindbaseContext : DbContext {
+namespace Entities.BlumindDB
+{
+    public partial class BlumindbaseContext : DbContext
+    {
         public BlumindbaseContext()
         {
         }
@@ -146,11 +148,7 @@ namespace Entities.BlumindDB {
 
             modelBuilder.Entity<Product>(entity =>
             {
-                entity.Property(e => e.Id).ValueGeneratedNever();
-
-                entity.Property(e => e.DateInsert)
-                    .IsRequired()
-                    .HasMaxLength(10);
+                entity.Property(e => e.DateInsert).HasColumnType("datetime");
 
                 entity.Property(e => e.DateModified).HasColumnType("datetime");
 

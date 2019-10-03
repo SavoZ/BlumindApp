@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Entities.BlumindDB {
-    public partial class AspNetRole {
+namespace Entities.BlumindDB
+{
+    public partial class AspNetRole
+    {
         public AspNetRole()
         {
             AspNetRoleClaims = new HashSet<AspNetRoleClaim>();

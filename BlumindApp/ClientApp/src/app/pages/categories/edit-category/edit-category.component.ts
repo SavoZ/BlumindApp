@@ -14,9 +14,16 @@ export class EditCategoryComponent implements OnInit {
   constructor(private http: HttpClient, private router: Router) {
   }
 
+  title = 'Category';
+  selectedProducts;
+  products = [{}];
   model = new CategoryEdit();
   ngOnInit() {
+    this.http.get(API_ENDPOINT + 'Product/GetAllProducts').toPromise().then(result => {
+      this.products = result as [{}];
+    });
   }
+  addedProduct = (value) => ({ name: value });
 
   public submit() {
     console.log(this.model);

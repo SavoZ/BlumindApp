@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Entities.BlumindDB {
-    public partial class AspNetUser {
+namespace Entities.BlumindDB
+{
+    public partial class AspNetUser
+    {
         public AspNetUser()
         {
             AspNetUserClaims = new HashSet<AspNetUserClaim>();
