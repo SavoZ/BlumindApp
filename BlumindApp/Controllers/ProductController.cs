@@ -9,10 +9,10 @@ using System.Threading.Tasks;
 
 namespace BlumindApp.Controllers {
     [Route("api/[controller]")]
-    public class ProductController : Controller {
+    public class ProductController : BaseController {
         [HttpPost("[action]")]
         [Authorize]
-        public async Task<IActionResult> PostProduct([FromBody] ProductEditModel model)
+        public async Task<IActionResult> PostProduct([FromBody] ProductPostModel model)
         {
             using (var db = new BlumindbaseContext())
             {
@@ -25,12 +25,22 @@ namespace BlumindApp.Controllers {
                         Name = model.Name,
                         ValidFrom = DateTime.Now,
                         Quantity = model.Quantity,
-                        Price = model.Price
+                        Price = model.Price,
+                        UserInsert = CurrentUserId,
+                        DateInsert = DateTime.Now
                     };
-
                     db.Products.Add(entity);
-                    await db.SaveChangesAsync();
                 }
+                else
+                {
+                    entity.Name = model.Name;
+                    entity.ValidFrom = model.ValidFrom;
+                    entity.Quantity = model.Quantity;
+                    entity.Price = model.Price;
+                    entity.DateModified = DateTime.Now;
+                    entity.UserModified = CurrentUserId;
+                }
+                await db.SaveChangesAsync();
             }
 
             return Ok();
@@ -43,6 +53,18 @@ namespace BlumindApp.Controllers {
             using (var db = new BlumindbaseContext())
             {
                 var model = db.Products.FirstOrDefault();
+
+                return Ok(model);
+            }
+        }
+
+        [HttpGet("[action]")]
+        [Authorize]
+        public async Task<IActionResult> GetAllProducts()
+        {
+            using (var db = new BlumindbaseContext())
+            {
+                var model = db.Products.Select(p => new { p.Id, p.Name }).ToList();
 
                 return Ok(model);
             }

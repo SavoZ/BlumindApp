@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 
 namespace BlumindApp.Models.Product {
-    public class ProductEditModel {
+    public class ProductPostModel {
         public int Id { get; set; }
         public string Name { get; set; }
         public DateTime ValidFrom { get; set; }
