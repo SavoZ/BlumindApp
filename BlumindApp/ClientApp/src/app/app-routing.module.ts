@@ -5,11 +5,14 @@ import { LoginComponent } from './login/login.component';
 import { EditProductComponent } from './pages/products/edit-product/edit-product.component';
 import { NavMenuComponent } from './nav-menu/nav-menu.component';
 import { EditCategoryComponent } from './pages/categories/edit-category/edit-category.component';
+import { IndexComponent } from './pages/index/index.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
   {
     path: '', canActivate: [AuthGuard], component: NavMenuComponent, children: [
+      { path: 'index', canActivate: [AuthGuard], component: IndexComponent },
+
       {
         path: 'product', canActivate: [AuthGuard], children: [
           { path: 'add', canActivate: [AuthGuard], component: EditProductComponent },

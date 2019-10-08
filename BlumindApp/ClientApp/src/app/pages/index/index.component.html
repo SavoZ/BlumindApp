@@ -1,0 +1,13 @@
+<kendo-grid [data]="gridView" [height]="470" [groupable]="true" [group]="groups" (groupChange)="groupChange($event)">
+  <ng-template kendoGridToolbarTemplate>
+    <button kendoGridAddCommand [routerLink]='["/category/add"]'>Add new category</button>
+    <button kendoGridAddCommand [routerLink]='["/product/add"]'>Add new product</button>
+  </ng-template>
+  <kendo-grid-column field="id" title="Id"></kendo-grid-column>
+  <kendo-grid-column field="name" title="Name"></kendo-grid-column>
+  <kendo-grid-column field="category" title="Category">
+    <ng-template kendoGridGroupHeaderTemplate let-value="value">
+      {{value}}
+    </ng-template>
+  </kendo-grid-column>
+</kendo-grid>

@@ -3,6 +3,7 @@ import { NgModule, NO_ERRORS_SCHEMA, CUSTOM_ELEMENTS_SCHEMA } from '@angular/cor
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { NgSelectModule } from '@ng-select/ng-select';
+import { GridModule } from '@progress/kendo-angular-grid';
 
 import { AppComponent } from './app.component';
 import { NavMenuComponent } from './nav-menu/nav-menu.component';
@@ -12,6 +13,8 @@ import { AppRoutingModule } from './app-routing.module';
 import { LoginComponent } from './login/login.component';
 import { EditProductComponent } from './pages/products/edit-product/edit-product.component';
 import { EditCategoryComponent } from './pages/categories/edit-category/edit-category.component';
+import { IndexComponent } from './pages/index/index.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
@@ -19,7 +22,8 @@ import { EditCategoryComponent } from './pages/categories/edit-category/edit-cat
     NavMenuComponent,
     LoginComponent,
     EditProductComponent,
-    EditCategoryComponent
+    EditCategoryComponent,
+    IndexComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -28,6 +32,8 @@ import { EditCategoryComponent } from './pages/categories/edit-category/edit-cat
     ReactiveFormsModule,
     AppRoutingModule,
     NgSelectModule,
+    GridModule,
+    BrowserAnimationsModule,
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },

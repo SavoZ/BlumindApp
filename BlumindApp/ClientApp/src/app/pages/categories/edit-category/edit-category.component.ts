@@ -18,6 +18,7 @@ export class EditCategoryComponent implements OnInit {
   selectedProducts;
   products = [{}];
   model = new CategoryEdit();
+
   ngOnInit() {
     this.http.get(API_ENDPOINT + 'Product/GetAllProducts').toPromise().then(result => {
       this.products = result as [{}];

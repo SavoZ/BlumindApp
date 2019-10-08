@@ -7,11 +7,17 @@
       <div novalidate="" class="ng-untouched ng-pristine ng-valid">
         <div class="form-group"><input class="form-control" placeholder="Name" type="text" [(ngModel)]="model.name">
         </div>
+
+        <div class="form-group">
+          <input type="text" placeholder="Datepicker" class="form-control" bsDatepicker> </div>
+
         <div class="form-group"><input class="form-control" placeholder="Quantity" type="number"
             [(ngModel)]="model.quantity"></div>
+
         <div class="form-group"><input class="form-control" placeholder="Price" type="number" [(ngModel)]="model.price">
         </div>
-        <button class="btn btn-success" type="submit" (click)="submit()">Submit</button>
+        <button class="btn btn-success" id="submit" type="submit" (click)="submit()">Submit</button>
+        <button class="btn btn-lught" id="cancel" [routerLink]='["/index"]'>Cancel</button>
       </div>
     </div>
   </div>

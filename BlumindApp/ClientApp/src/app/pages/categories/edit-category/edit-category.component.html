@@ -8,11 +8,16 @@
         <div class="form-group"><input class="form-control" placeholder="Name" type="text" [(ngModel)]="model.name">
         </div>
         <div class="form-group">
+          <input type="text" placeholder="Datepicker" class="form-control" bsDatepicker>
+        </div>
+
+        <div class="form-group">
           <ng-select [items]="products" bindLabel="name" bindValue="id" [multiple]="true" placeholder="Add product"
             [(ngModel)]="model.products">
           </ng-select>
         </div>
-        <button class="btn btn-success" type="submit" (click)="submit()">Submit</button>
+        <button class="btn btn-success" id="submit" type="submit" (click)="submit()">Submit</button>
+        <button class="btn btn-lught" id="cancel" [routerLink]='["/index"]'>Cancel</button>
       </div>
     </div>
   </div>
