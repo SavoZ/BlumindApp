@@ -3,11 +3,12 @@ import { HttpInterceptor, HttpRequest, HttpEvent, HttpHandler } from '@angular/c
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 
 @Injectable()
 export class ErrorInterceptor implements HttpInterceptor {
 
-    constructor(private router: Router) { }
+    constructor(private router: Router, private toastr: ToastrService) { }
 
     intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
         return next.handle(req).pipe(catchError(err => {
@@ -21,12 +22,15 @@ export class ErrorInterceptor implements HttpInterceptor {
             }
 
             if (err.error.error === 'invalid_grant') {
+                this.toastr.error('User not found. Please check your username and password');
             } else {
                 if (err.error.Message.includes(';')) {
                     const errors = err.error.Message.split(';');
                     errors.forEach(message => {
+                        this.toastr.error(message);
                     });
                 } else {
+                    this.toastr.error(err.error.Message);
                 }
             }
             return throwError(err.error);

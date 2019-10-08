@@ -5,9 +5,22 @@
   </ng-template>
   <kendo-grid-column field="id" title="Id"></kendo-grid-column>
   <kendo-grid-column field="name" title="Name"></kendo-grid-column>
+  <kendo-grid-column field="quantity" title="Quantity"></kendo-grid-column>
+  <kendo-grid-column field="price" title="Price"></kendo-grid-column>
   <kendo-grid-column field="category" title="Category">
     <ng-template kendoGridGroupHeaderTemplate let-value="value">
-      {{value}}
+      {{value}} <button class="k-button" (click)="onClick(group)">CLICK</button>
     </ng-template>
   </kendo-grid-column>
+  <kendo-grid-command-column title="Edit" width="100">
+    <ng-template kendoGridCellTemplate let-isNew="isNew">
+      <button kendoGridEditCommand [primary]="true">Edit</button>
+    </ng-template>
+  </kendo-grid-command-column>
+
+  <kendo-grid-command-column title="Remove" width="100">
+    <ng-template kendoGridCellTemplate let-isNew="isNew">
+      <button kendoGridRemoveCommand>Remove</button>
+    </ng-template>
+  </kendo-grid-command-column>
 </kendo-grid>

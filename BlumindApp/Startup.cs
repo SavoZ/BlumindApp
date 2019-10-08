@@ -99,7 +99,7 @@ namespace BlumindApp {
                 var policy = policyBuilder.Build();
 
                 options.Filters.Add(new AuthorizeFilter(policy));
-                //options.Filters.Add(new GlobalErrorFilter());
+                options.Filters.Add(new GlobalErrorFilter());
             });
 
             services.AddAuthorization();

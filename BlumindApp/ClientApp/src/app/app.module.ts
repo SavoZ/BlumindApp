@@ -4,6 +4,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { GridModule } from '@progress/kendo-angular-grid';
+import { ToastrModule } from 'ngx-toastr';
 
 import { AppComponent } from './app.component';
 import { NavMenuComponent } from './nav-menu/nav-menu.component';
@@ -34,6 +35,15 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     NgSelectModule,
     GridModule,
     BrowserAnimationsModule,
+    ToastrModule.forRoot({
+      autoDismiss: true,
+      progressBar: true,
+      progressAnimation: 'decreasing',
+      preventDuplicates: true,
+      newestOnTop: true,
+      tapToDismiss: true,
+      countDuplicates: true
+    }),
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },

@@ -6,6 +6,8 @@ body {
 }
 
 @import "~@progress/kendo-theme-material/scss/all.scss";
+@import '~ngx-toastr/toastr.css';
+@import "../node_modules/bootstrap/scss/bootstrap";
 
 #cancel {
   float: right;

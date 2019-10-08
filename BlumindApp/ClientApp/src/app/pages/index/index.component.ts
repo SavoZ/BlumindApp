@@ -11,15 +11,17 @@ import { GroupDescriptor, DataResult, process } from '@progress/kendo-data-query
 export class IndexComponent implements OnInit {
 
   constructor(private http: HttpClient) {
-    this.products = this.http.get(API_ENDPOINT + 'Product/GetProducts').toPromise();
+    this.http.get<any[]>(API_ENDPOINT + 'Product/GetProducts').toPromise().then(result => {
+      this.products = result as [{}];
+      this.loadProducts();
+
+    });
   }
-  products;
+  products = [];
   public groups: GroupDescriptor[] = [{ field: 'category' }];
   public gridView: DataResult;
 
   ngOnInit() {
-    this.loadProducts();
-
   }
 
   public groupChange(groups: GroupDescriptor[]): void {
