@@ -1,4 +1,5 @@
 using BlumindApp.Filters;
+using BlumindApp.Services;
 using Entities;
 using IdentityServer4.AccessTokenValidation;
 using IdentityServer4.Services;
@@ -103,7 +104,8 @@ namespace BlumindApp {
             });
 
             services.AddAuthorization();
-
+            services.AddTransient<ProductService, ProductService>();
+            services.AddTransient<CategoryService, CategoryService>();
 
             services.AddMvc(options =>
             {

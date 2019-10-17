@@ -1,26 +1,23 @@
-<kendo-grid [data]="gridView" [height]="470" [groupable]="true" [group]="groups" (groupChange)="groupChange($event)">
+<kendo-grid [data]="gridView" [height]="800" [pageable]="true" [sortable]="true" (edit)="editHandler($event)"
+  (remove)="removeHandler($event)" [groupable]="true" [group]="groups" (groupChange)="groupChange($event)">
   <ng-template kendoGridToolbarTemplate>
     <button kendoGridAddCommand [routerLink]='["/category/add"]'>Add new category</button>
     <button kendoGridAddCommand [routerLink]='["/product/add"]'>Add new product</button>
   </ng-template>
   <kendo-grid-column field="id" title="Id"></kendo-grid-column>
   <kendo-grid-column field="name" title="Name"></kendo-grid-column>
-  <kendo-grid-column field="quantity" title="Quantity"></kendo-grid-column>
-  <kendo-grid-column field="price" title="Price"></kendo-grid-column>
-  <kendo-grid-column field="category" title="Category">
-    <ng-template kendoGridGroupHeaderTemplate let-value="value">
-      {{value}} <button class="k-button" (click)="onClick(group)">CLICK</button>
+  <kendo-grid-column field="validFrom" width="220" title="Valid From">
+    <ng-template kendoGridCellTemplate let-dataItem>
+      {{dataItem.validFrom | date: 'MM/dd/yyyy'}}
     </ng-template>
   </kendo-grid-column>
-  <kendo-grid-command-column title="Edit" width="100">
-    <ng-template kendoGridCellTemplate let-isNew="isNew">
-      <button kendoGridEditCommand [primary]="true">Edit</button>
-    </ng-template>
-  </kendo-grid-command-column>
+  <kendo-grid-column field="quantity" title="Quantity"></kendo-grid-column>
+  <kendo-grid-column field="price" title="Price"></kendo-grid-column>
 
-  <kendo-grid-command-column title="Remove" width="100">
-    <ng-template kendoGridCellTemplate let-isNew="isNew">
-      <button kendoGridRemoveCommand>Remove</button>
+  <kendo-grid-command-column title="command" width="220">
+    <ng-template kendoGridCellTemplate>
+      <button kendoGridEditCommand [primary]="true">Edit</button>
+      <button kendoGridRemoveCommand [danger]="true">Remove</button>
     </ng-template>
   </kendo-grid-command-column>
 </kendo-grid>

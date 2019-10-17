@@ -1,4 +1,5 @@
-﻿using Commom.Models.Category;
+﻿using BlumindApp.Services;
+using Commom.Models.Category;
 using Entities.BlumindDB;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -9,10 +10,15 @@ using System.Threading.Tasks;
 using Validation.Creator;
 
 namespace BlumindApp.Controllers {
-    [Route("api/[controller]")]
+    [Route("api/[controller]/[action]")]
     public class CategoryController : BaseController {
+        private readonly CategoryService _service;
+        public CategoryController(CategoryService categoryService)
+        {
+            _service = categoryService;
+        }
 
-        [HttpGet("[action]")]
+        [HttpGet]
         [Authorize]
         public async Task<IActionResult> GetAllCategories()
         {
@@ -24,71 +30,28 @@ namespace BlumindApp.Controllers {
             }
         }
 
-        [HttpPost("[action]")]
+        [HttpGet]
         [Authorize]
-        public async Task<IActionResult> PostCategory([FromBody] CategoryPostModel model)
+        public async Task<IActionResult> GetCategory([FromQuery] int categoryId)
         {
-            var validator = ValidatorFactory.GetValidator<CategoryPostModel>();
-            validator.Validate(model);
-
             using (var db = new BlumindbaseContext())
             {
-                var entity = db.Categories.FirstOrDefault(p => p.Id == model.Id);
+                var model = await db.Categories.FirstOrDefaultAsync(p => p.Id == categoryId);
 
-                using (var dbContextTransaction = db.Database.BeginTransaction())
-                {
-                    try
-                    {
-                        if (entity == null)
-                        {
-                            entity = new Category
-                            {
-                                Name = model.Name,
-                                ValidFrom = DateTime.Now,
-                                UserInsert = CurrentUserId,
-                                DalteInsert = DateTime.Now
-                            };
-                            db.Categories.Add(entity);
-                        }
-                        else
-                        {
-                            entity.Name = model.Name;
-                            entity.ValidFrom = model.ValidFrom.Value;
-                            entity.UserModified = CurrentUserId;
-                            entity.DateModified = DateTime.Now;
-                        }
-                        await db.SaveChangesAsync();
-                        model.Id = entity.Id;
-
-                        await AddCategoryProducts(model);
-
-                        dbContextTransaction.Commit();
-                    }
-                    catch (Exception)
-                    {
-                        dbContextTransaction.Rollback();
-                    }
-                }
+                return Ok(model);
             }
-            return Ok();
         }
 
-        private async Task AddCategoryProducts(CategoryPostModel model)
+        [HttpPost]
+        [Authorize]
+        public async Task<IActionResult> PostCategory([FromBody] CategoryPostModel categoryModel)
         {
-            using (var db = new BlumindbaseContext())
-            {
-                var currentProducts = await db.CategoryProducts.Where(c => c.CategoryId == model.Id).ToListAsync();
+            var validator = ValidatorFactory.GetValidator<CategoryPostModel>();
+            validator.Validate(categoryModel);
 
-                db.RemoveRange(currentProducts);
+            await _service.SaveCategory(categoryModel, CurrentUserId);
 
-                foreach (var productId in model.Products)
-                {
-                    var entity = new CategoryProduct { CategoryId = model.Id.Value, ProductId = productId };
-                    db.CategoryProducts.Add(entity);
-                }
-
-                await db.SaveChangesAsync();
-            }
+            return Ok();
         }
     }
 }
